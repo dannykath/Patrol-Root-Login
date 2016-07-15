@@ -5,21 +5,24 @@ module.exports.fn = function(event, callback) {
 
 
 var notification = {
-      subject: 'Root user logged in to the Console',
+      subject: 'Other user was logged to user root',
       summary: 'patrol detected that the root AWS user logged in to the console',
       event: event
 };
 
-var user= event.detail.userIdentity.userName;
-if (user=='root') {
-	message(notification, function(err, result) {
-	    callback(err, result);
+var user = event.detail.userIdentity.userName;
+var ip = event.detail.sourceIPAddress;
+if (user==='root' && ip !=='99.101.20.31') {
+      message(notification, function(err, result) {
+      callback(err, result);
     });
+
 } else {
-	callback(null,"Other user different of root logged in to the Console");
+	
+  callback(null,"no enviar mensaje");
+
 }
  
-
 
 };
 module.exports.config = {
